@@ -11,7 +11,20 @@ LINE = (
 )
 
 
+def validate(line: str) -> None:
+    """The sealed scorer's gate: 1-200 UTF-8 chars, one line, not blank."""
+    if not isinstance(line, str):
+        raise TypeError("entry must be a string")
+    if "\n" in line or "\r" in line:
+        raise ValueError("entry must be a single line")
+    if not line.strip():
+        raise ValueError("entry must not be only whitespace")
+    if not 1 <= len(line) <= 200:
+        raise ValueError(f"entry must be 1-200 characters, got {len(line)}")
+
+
 def main() -> None:
+    validate(LINE)
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(LINE + "\n")
 
